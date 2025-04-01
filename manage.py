@@ -2,7 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import django
 
+def executar_script():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+    django.setup()
+
+    from backend.core.fake_dados import execute
+    execute(20)
 
 def main():
     """Run administrative tasks."""
@@ -19,4 +26,7 @@ def main():
 
 
 if __name__ == '__main__':
+    if "runserver" in sys.argv and os.environ.get('RUN_MAIN') != 'true':
+        executar_script()
+
     main()
