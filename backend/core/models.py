@@ -7,7 +7,7 @@ class Tarefa(models.Model):
     descricao = models.TextField(blank=True, null=True)
     data_criacao = models.DateTimeField(blank=True, null=True)
     data_atualizacao = models.DateTimeField(blank=True, null=True)
-    status = models.CharField(max_length=50, default='Pendente')
+    status = models.CharField(max_length=50, default='pendente')
 
     def __str__(self):
         return self.nome
