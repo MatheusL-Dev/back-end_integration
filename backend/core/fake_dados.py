@@ -1,13 +1,13 @@
 import random
 from faker import Faker
 from backend.core.models import Tarefa
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from django.db.utils import OperationalError
 
 fake = Faker()
 def generate_random_date():
-    start_date = datetime(2020, 1, 1)
-    end_date = datetime(2025, 12, 31)
+    start_date = date(2025, 1, 1)
+    end_date = date(2025, 12, 31)
     delta = end_date - start_date
     random_days = random.randint(0, delta.days)
     random_date = start_date + timedelta(days=random_days)
@@ -40,6 +40,7 @@ def execute(num_tasks=10):
 
     except OperationalError:
         from django.core.management import call_command
+        call_command("makemigrations", interactive=False)
         call_command("migrate", interactive=False)
         generate_random_tasks(num_tasks) 
 
