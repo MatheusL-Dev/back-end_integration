@@ -1,4 +1,5 @@
 import traceback
+from datetime import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -53,7 +54,11 @@ class TarefaViewSet(viewsets.ViewSet):
         """
 
         try:
-            serializer = TarefaSerializer(data=request.data) 
+            data = request.data
+            data['data_criacao'] = datetime.now().date()
+            data['data_atualizacao'] = datetime.now().date()
+
+            serializer = TarefaSerializer(data=data) 
 
             if serializer.is_valid(): 
                 serializer.save() 
@@ -73,7 +78,9 @@ class TarefaViewSet(viewsets.ViewSet):
 
         try:
             task = Tarefa.objects.get(pk=pk)
-            serializer = TarefaSerializer(task, data=request.data, partial=True)
+            data = request.data
+            data['data_atualizacao'] = datetime.now().date()
+            serializer = TarefaSerializer(task, data=data, partial=True)
 
             if serializer.is_valid():
                 serializer.save()
